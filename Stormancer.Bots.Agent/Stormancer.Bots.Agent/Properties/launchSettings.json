@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Stormancer.Bots.Agent": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
