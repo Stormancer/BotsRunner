@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.Agent", "St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.ServerApp", "Stormancer.Bots.ServerApp\Stormancer.Bots.ServerApp.csproj", "{BFD69EE0-8974-48E2-BE10-5779E626B8EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stormancer.Bots.Client", "Stormancer.Bots.Client\Stormancer.Bots.Client.csproj", "{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.Client", "Stormancer.Bots.Client\Stormancer.Bots.Client.csproj", "{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stormancer.Bots.Agent.Worker", "Stormancer.Bots.Agent.Worker\Stormancer.Bots.Agent.Worker.csproj", "{FB126014-7B73-4953-8A20-90BEED52BA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{FB126014-7B73-4953-8A20-90BEED52BA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB126014-7B73-4953-8A20-90BEED52BA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB126014-7B73-4953-8A20-90BEED52BA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB126014-7B73-4953-8A20-90BEED52BA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

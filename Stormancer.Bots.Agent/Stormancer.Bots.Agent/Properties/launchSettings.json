@@ -1,10 +1,12 @@
 {
   "profiles": {
     "Stormancer.Bots.Agent": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "http://localhost remoteControl dev-client vs-debug"
     },
     "Docker": {
-      "commandName": "Docker"
+      "commandName": "Docker",
+      "commandLineArgs": "http://localhost remoteControl dev-client vs-debug-docker"
     }
   }
 }
