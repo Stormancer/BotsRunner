@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+Stormancer.Bots.Agent/deployment/gc3.profile.json
+Stormancer.Bots.Agent/Stormancer.Bots.Agent.Worker/appsettings.json
+Stormancer.Bots.Agent/Stormancer.Bots.Client/publish.bat
