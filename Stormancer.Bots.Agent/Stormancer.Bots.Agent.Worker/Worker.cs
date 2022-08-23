@@ -103,7 +103,7 @@ namespace Stormancer.Bots.Agent.Worker
                             var args = string.Join(' ', ctx.CommandSegments.Skip(4));
 
                             args = SmartFormat.Smart.Format(args, new ArgumentsFormatCtx { AgentName = rcConfig.Id, RunId = i });
-
+                            var botId = $"{rcConfig.Id}-{i}";
                             var startinfos = new ProcessStartInfo(Path.Combine(commandDirectory, execPath), args);
                             startinfos.CreateNoWindow = true;
                             startinfos.RedirectStandardOutput = true;
@@ -114,8 +114,7 @@ namespace Stormancer.Bots.Agent.Worker
                                 //accumulator += args.Data;
                                 //if (accumulator.EndsWith(Environment.NewLine))
                                 //{
-
-                                    ctx.SendResult("output", JObject.FromObject(new { data =args.Data }));
+                                    ctx.SendResult("output", JObject.FromObject(new { data =args.Data, botId= botId, createdOn = DateTime.UtcNow}));
                                 //    accumulator = string.Empty;
                                 //}
 
