@@ -54,6 +54,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Maui" Version="1.2.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	  <PackageReference Include="Stormancer.Client" Version="3.4.4.3-pre" />
 	  <PackageReference Include="Stormancer.Plugins.RemoteControl" Version="0.1.0.6-pre" />

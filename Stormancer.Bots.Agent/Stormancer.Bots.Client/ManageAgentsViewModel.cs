@@ -39,6 +39,7 @@ namespace Stormancer.Bots.Client
             }
         }
 
+       
 
         public ObservableCollection<AgentViewModel> Agents { get; set; } = new ObservableCollection<AgentViewModel>();
         public ObservableCollection<object> SelectedAgents { get; set; } = new ObservableCollection<object>();

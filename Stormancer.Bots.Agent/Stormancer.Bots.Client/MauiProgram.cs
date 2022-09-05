@@ -1,4 +1,6 @@
-﻿namespace Stormancer.Bots.Client
+﻿using CommunityToolkit.Maui;
+
+namespace Stormancer.Bots.Client
 {
     public static class MauiProgram
     {
@@ -6,6 +8,7 @@
         {
             var builder = MauiApp.CreateBuilder();
             builder
+                .UseMauiCommunityToolkit()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {

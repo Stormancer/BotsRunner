@@ -62,14 +62,14 @@ namespace Stormancer.Bots.Agent.Worker
                 api.AddCommandHandler("echo", ctx =>
                 {
 
-                    ctx.SendResult("echo", JObject.FromObject(new { msg = string.Join(' ', ctx.CommandSegments) }));
+                    ctx.SendResult("echo", JObject.FromObject(new { msg = string.Join(' ', ctx.CommandSegments), createdOn = DateTime.UtcNow }));
                     return Task.CompletedTask;
                 });
                 api.AddCommandHandler("run", async ctx =>
                 {
                     if (ctx.CommandSegments.Length < 4)
                     {
-                        ctx.SendResult("error", JObject.FromObject(new { msg = "missing arguments, expected 'run {zip url} {nb instances} {executable path in zip file} {args..}" }));
+                        ctx.SendResult("error", JObject.FromObject(new { msg = "missing arguments, expected 'run {zip url} {nb instances} {executable path in zip file} {args..}", createdOn = DateTime.UtcNow }));
                     }
 
                     var client = new HttpClient();
@@ -86,7 +86,7 @@ namespace Stormancer.Bots.Agent.Worker
                             using var fileStream = File.OpenWrite(compressedFilePath);
                             await stream.CopyToAsync(fileStream);
                         }
-                        ctx.SendResult("downloaded", JObject.FromObject(new { url = ctx.CommandSegments[1] }));
+                        ctx.SendResult("downloaded", JObject.FromObject(new { url = ctx.CommandSegments[1], createdOn = DateTime.UtcNow })) ;
                         {
                             using var stream = File.OpenRead(compressedFilePath);
                             using var archive = new ZipArchive(stream);
@@ -98,56 +98,73 @@ namespace Stormancer.Bots.Agent.Worker
 
                         var tasks = Enumerable.Range(0, nbInstances).Select(async i =>
                         {
-                            var execPath = ctx.CommandSegments[3];
-
                             var args = string.Join(' ', ctx.CommandSegments.Skip(4));
 
                             args = SmartFormat.Smart.Format(args, new ArgumentsFormatCtx { AgentName = rcConfig.Id, RunId = i });
                             var botId = $"{rcConfig.Id}-{i}";
-                            var startinfos = new ProcessStartInfo(Path.Combine(commandDirectory, execPath), args);
-                            startinfos.CreateNoWindow = true;
-                            startinfos.RedirectStandardOutput = true;
-                            var prc = Process.Start(startinfos);
-                            //string accumulator = "";
-                            prc.OutputDataReceived += (sender, args) =>
+                            try
                             {
-                                //accumulator += args.Data;
-                                //if (accumulator.EndsWith(Environment.NewLine))
-                                //{
-                                    ctx.SendResult("output", JObject.FromObject(new { data =args.Data, botId= botId, createdOn = DateTime.UtcNow}));
-                                //    accumulator = string.Empty;
-                                //}
+                                var execPath = ctx.CommandSegments[3];
 
-                            };
+
+                                var startinfos = new ProcessStartInfo(Path.Combine(commandDirectory, execPath), args);
+                                startinfos.CreateNoWindow = true;
+                                startinfos.RedirectStandardOutput = true;
+                                startinfos.RedirectStandardError = true;
+                                var prc = Process.Start(startinfos);
+                                using var registration = ctx.CancellationToken.Register(() => prc?.Kill(true));
+                                //string accumulator = "";
+                                prc.OutputDataReceived += (sender, args) =>
+                                {
+                                   
+                                    ctx.SendResult("bot.output", JObject.FromObject(new { data = args.Data, botId = botId, createdOn = DateTime.UtcNow }));
+                                    
+
+                                };
+
+                                prc.ErrorDataReceived += (sender, args) =>
+                                {
+                                   
+                                    ctx.SendResult("bot.error", JObject.FromObject(new { data = args.Data, botId = botId, createdOn = DateTime.UtcNow }));
+                                  
+
+                                };
+
+                                ctx.SendResult("bot.started", JObject.FromObject(new { filename = execPath, botId, arguments = args, createdOn = DateTime.UtcNow }));
+                                prc.BeginOutputReadLine();
+                                prc.BeginErrorReadLine();
+
+                                await prc.WaitForExitAsync();
                                
-                            ctx.SendResult("started", JObject.FromObject(new { filename = execPath, arguments = args }));
-                            prc.BeginOutputReadLine();
-
-                            await prc.WaitForExitAsync();
-                            //if(!string.IsNullOrEmpty(accumulator))
-                            //{
-                            //    ctx.SendResult("output", JObject.FromObject(new { data = accumulator }));
-                            //}
+                            }
+                            catch (Exception ex)
+                            {
+                                ctx.SendResult("bot.error", JObject.FromObject(new { data= ex.Message, botId , createdOn = DateTime.UtcNow}));
+                            }
+                            finally
+                            {
+                                ctx.SendResult("bot.stopped", JObject.FromObject(new { botId, createdOn = DateTime.UtcNow }));
+                            }
                         });
 
                         await Task.WhenAll(tasks);
                     }
                     finally
                     {
-                        if(Directory.Exists(commandDirectory))
+                        if (Directory.Exists(commandDirectory))
                         {
                             Directory.Delete(commandDirectory, true);
                         }
                     }
                 });
 
-              
+
                 _logger.LogInformation("Starting agent...");
                 await api.Run();
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"An error occured");
+                _logger.LogError(ex, "An error occured");
                 Environment.Exit(1);
             }
         }

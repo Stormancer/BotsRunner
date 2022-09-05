@@ -2,25 +2,54 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:Stormancer.Bots.Client"
+             xmlns:t="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="Stormancer.Bots.Client.ManageCommandWidget">
+    <ContentView.Resources>
+        <t:InvertedBoolConverter  x:Key="negateConverter" />
+    </ContentView.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <VerticalStackLayout Grid.Row="0">
-        <Entry Text="{Binding Command, Mode=TwoWay}"/>
-        <Button Text="Run command" Command="{Binding RunCommandCommand}"/>
-        </VerticalStackLayout>
 
-        <CollectionView  Grid.Row="1" ItemsSource="{Binding CommandOutput}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <views:CommandResultOutputWidget BindingContext="{Binding}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Border>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
 
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <VerticalStackLayout Grid.Row="0">
+                    <Entry Text="{Binding Command, Mode=TwoWay}"/>
+                    <HorizontalStackLayout>
+                        <Button Text="Run command" Command="{Binding RunCommandCommand}" IsEnabled="{Binding Path=RunCommandCommand.IsRunning, Converter={StaticResource negateConverter}}"/>
+                        <Button Text="Cancel" Command="{Binding CancelRunningCommandCommand}" IsEnabled="{Binding RunCommandCommand.CanBeCanceled}"/>
+                        <ActivityIndicator IsRunning="{Binding RunCommandCommand.IsRunning}" />
+                    </HorizontalStackLayout>
+                   
+                </VerticalStackLayout>
+                <Editor   Grid.Row="1" IsReadOnly="True" Text="{Binding Logs}" />
+                <CollectionView  Grid.Row="2" ItemsSource="{Binding Bots}" SelectedItem="{Binding SelectedBot}" SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Label Text="{Binding Name}"/>
 
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+        <Border Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Text="{Binding SelectedBot.Name}" />
+                <Editor Grid.Row="1" IsReadOnly="True" Text="{Binding SelectedBot.Logs}" />
+            </Grid>
+        </Border>
     </Grid>
 </ContentView>

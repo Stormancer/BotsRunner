@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32210.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.Agent", "Stormancer.Bots.Agent\Stormancer.Bots.Agent.csproj", "{45F56DF0-F3F7-46C6-9E1C-CD504DF4AE9B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.ServerApp", "Stormancer.Bots.ServerApp\Stormancer.Bots.ServerApp.csproj", "{BFD69EE0-8974-48E2-BE10-5779E626B8EB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.Client", "Stormancer.Bots.Client\Stormancer.Bots.Client.csproj", "{D7318A44-AAA8-4159-AB45-4E5C1DA27C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stormancer.Bots.Agent.Worker", "Stormancer.Bots.Agent.Worker\Stormancer.Bots.Agent.Worker.csproj", "{FB126014-7B73-4953-8A20-90BEED52BA73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stormancer.Bots.Agent.Worker", "Stormancer.Bots.Agent.Worker\Stormancer.Bots.Agent.Worker.csproj", "{FB126014-7B73-4953-8A20-90BEED52BA73}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{45F56DF0-F3F7-46C6-9E1C-CD504DF4AE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45F56DF0-F3F7-46C6-9E1C-CD504DF4AE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45F56DF0-F3F7-46C6-9E1C-CD504DF4AE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45F56DF0-F3F7-46C6-9E1C-CD504DF4AE9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BFD69EE0-8974-48E2-BE10-5779E626B8EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BFD69EE0-8974-48E2-BE10-5779E626B8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD69EE0-8974-48E2-BE10-5779E626B8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
